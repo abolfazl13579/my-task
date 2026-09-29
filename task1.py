@@ -9,6 +9,8 @@ LIMIT = 50
 
 MIN_YEAR = 2000
 
+OUTPUT_FILE = "books_after_2000.csv"
+
 response=requests.get(
     API_URL,
     params={
@@ -61,10 +63,14 @@ for book in books:
 
 print("Number of books after 2000 (without duplicates):", len(filtered_books))
 
+with open(OUTPUT_FILE , "w" , newline="" ,encoding="utf-8") as file:
+    writer = csv.DictWriter(
+        file,
+        fieldnames=["title" , "author" , "first_publish_year", "openlibrary_key"]  
+    )
+    writer.writeheader()
+    for book in filtered_books:
+        writer.writerow(book)
 
-
-
-
-
-
+print("The file was saved." , OUTPUT_FILE)
 
